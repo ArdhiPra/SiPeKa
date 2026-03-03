@@ -1,0 +1,61 @@
+/* ================= SIDEBAR CORE ================= */
+
+.sidebar,
+.offcanvas {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Wrapper */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #212529;
+    padding: 1rem;
+    z-index: 100;
+}
+
+/* Brand */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Nav link */
+.sidebar .nav-link,
+.offcanvas-body .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;                  /* KUNCI konsistensi icon-text */
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #fff;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover */
+.sidebar .nav-link:hover,
+.offcanvas-body .nav-link:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateX(4px);
+}
+
+/* Active */
+.sidebar .nav-link.active,
+.offcanvas-body .nav-link.active {
+    background: rgba(255,255,255,0.18);
+    font-weight: 600;
+}
+
+/* Mobile offcanvas spacing */
+.offcanvas-body {
+    padding-top: 1rem;
+}

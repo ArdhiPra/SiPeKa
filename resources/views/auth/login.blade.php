@@ -7,12 +7,12 @@
 
     <h2>Login</h2>
 
-    @if(session('error'))
-        <p style="color:red">{{ session('error') }}</p>
+    @if(session('alert-error'))
+        <p style="color:red">{{ session('alert-error') }}</p>
     @endif
 
-    @if(session('success'))
-        <p style="color:green">{{ session('success') }}</p>
+    @if(session('alert-success'))
+        <p style="color:green">{{ session('alert-success') }}</p>
     @endif
 
     <form method="POST" action="/">
@@ -28,7 +28,9 @@
     </form>
 
     <br>
+    <a href="/forgot-password">Lupa password?</a>
     <a href="/register">Belum punya akun? Register</a>
+
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

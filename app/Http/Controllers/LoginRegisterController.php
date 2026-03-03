@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Magang;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginRegisterController extends Controller
 {
@@ -21,34 +26,35 @@ class LoginRegisterController extends Controller
     // PROSES LOGIN
     // ======================
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-        $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
-            return back()->with('error', 'Email tidak ditemukan');
-        }
-
-        if (!Hash::check($request->password, $user->password)) {
-            return back()->with('error', 'Password salah');
-        }
-
-        // Simpan session
-        Session::put('user_id', $user->id);
-        Session::put('nama', $user->nama);
-        Session::put('role', $user->role);
-
-        // Redirect berdasarkan role
-        if ($user->role == 'admin') {
-            return redirect('/admin/dashboard');
-        }
-
-        return redirect('/user/dashboard');
+    if (!$user) {
+        return back()->with('alert-error', 'Email tidak ditemukan');
     }
+
+    if (!$user->email_verified_at) {
+        return back()->with('alert-error', 'Silakan verifikasi email terlebih dahulu');
+    }
+
+    if (!Hash::check($request->password, $user->password)) {
+        return back()->with('alert-error', 'Password salah');
+    }
+
+    Auth::login($user);
+
+    // Redirect berdasarkan role
+    if (strtolower($user->role) === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('user.dashboard');
+}
 
     // ======================
     // HALAMAN REGISTER
@@ -62,29 +68,48 @@ class LoginRegisterController extends Controller
     // PROSES REGISTER
     // ======================
     public function register(Request $request)
+{
+    $validated = $request->validate([
+        'nama' => 'required|string|max:100',
+        'email' => 'required|email|unique:tbl_user,email',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    User::create([
+        'nama' => $validated['nama'],
+        'email' => $validated['email'],
+        'password' => Hash::make($validated['password']),
+        'role' => 'user', // pastikan default role
+    ]);
+
+    return redirect()->route('login')
+        ->with('alert-success', 'Registrasi berhasil, Kami telah mengirimkan email verifikasi, silakan cek email Anda');
+}
+
+    public function verifyEmail($token)
     {
-        $request->validate([
-            'nama' => 'required|max:50',
-            'email' => 'required|email|unique:tbl_user,email',
-            'password' => 'required|min:6|confirmed'
-        ]);
+        $user = User::where('verification_token', $token)->first();
 
-        User::create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'role' => 'user',
-            'password' => Hash::make($request->password)
-        ]);
+        if (!$user) {
+            return redirect('/')->with('alert-error', 'Token verifikasi tidak valid');
+        }
 
-        return redirect('/login')->with('success', 'Akun berhasil dibuat, silakan login');
+        $user->email_verified_at = now();
+        $user->verification_token = null;
+        $user->save();
+
+        return redirect('/')->with('alert-success', 'Email berhasil diverifikasi, silakan login');
     }
 
     // ======================
     // LOGOUT
     // ======================
     public function logout()
-    {
-        Session::flush();
-        return redirect('/login');
-    }
+{
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/');
+}
 }

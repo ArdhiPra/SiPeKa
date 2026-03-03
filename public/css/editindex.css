@@ -1,0 +1,92 @@
+.filter-panel {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 22px 26px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.03);
+}
+
+.filter-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.filter-control {
+    height: 42px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+}
+
+.filter-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+.filter-btn {
+    height: 42px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ================= TABLE CARD ================= */
+.table-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px 22px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.04);
+}
+
+.custom-table thead th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #64748b;
+    font-weight: 700;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.custom-table tbody td {
+    font-size: 0.85rem;
+    padding: 12px 6px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* ================= STATUS ================= */
+.status-pill {
+    padding: 5px 12px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    border-radius: 6px;
+    min-width: 90px;
+    text-align: center;
+    display: inline-block;
+}
+
+.status-active {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.status-finish {
+    background: #e0f2fe;
+    color: #075985;
+    border: 1px solid #7dd3fc;
+}
+
+.status-danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}

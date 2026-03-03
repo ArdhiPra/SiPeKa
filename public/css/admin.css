@@ -1,0 +1,194 @@
+/* =========================
+   ADMIN CONTENT ONLY
+   ========================= */
+
+.content {
+    margin-left: 250px;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    font-family: "Roboto", sans-serif;
+}
+
+/* =========================
+   HEADING (TEGAS & KONSISTEN)
+   ========================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+}
+
+/* Skala heading tetap responsif */
+.content h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.content h2 {
+    font-size: clamp(1.25rem, 3.5vw, 2rem);
+}
+
+.content h3 {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* =========================
+   TEXT
+   ========================= */
+
+.content p {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-weight: 400;
+}
+
+.content small {
+    font-weight: 400;
+    color: #666;
+}
+
+/* =========================
+   CARD & UI
+   ========================= */
+
+.content .card-title {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.content .progress-bar {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 767.98px) {
+    .content {
+        margin-left: 0;
+    }
+
+    .content .hide-border-mobile {
+        border: none !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .content form .form-label {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .content form .form-control,
+    .content form .form-select {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .content form textarea.form-control {
+        min-height: 80px;
+    }
+
+    .content .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .content .btn {
+        font-size: 15px;
+        padding: 10px 14px;
+    }
+}
+
+/* =========================
+   SWEET ALERT (GLOBAL SAFE)
+   ========================= */
+
+.swal-logout-popup {
+    width: 280px !important;
+    padding: 1rem !important;
+    border-radius: 12px !important;
+}
+
+.swal-logout-title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.swal-logout-confirm,
+.swal-logout-cancel {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+}
+
+/* =========================
+   UTILITIES
+   ========================= */
+
+.rotate-icon {
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.rotate-icon.open {
+    transform: rotate(90deg);
+}
+
+.collapsing {
+    transition: height 0.2s ease;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.btn-green {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, #28a745, #218838);
+    color: #fff;
+    border: 2px solid transparent;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-green:hover {
+    background: transparent;
+    background-image: linear-gradient(45deg, #28a745, #218838);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-color: #28a745;
+}
+
+.btn-yellow {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, #ffc107, #e0a800);
+    color: #fff;
+    border: 2px solid transparent;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-yellow:hover {
+    background: transparent;
+    background-image: linear-gradient(45deg, #ffc107, #e0a800);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-color: #ffc107;
+}

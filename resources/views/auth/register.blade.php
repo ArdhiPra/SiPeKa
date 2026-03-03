@@ -34,7 +34,7 @@
     </form>
 
     <br>
-    <a href="/login">Sudah punya akun? Login</a>
+    <a href="/">Sudah punya akun? Login</a>
 
 </body>
 </html>

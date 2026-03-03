@@ -17,10 +17,20 @@ class User extends Authenticatable
         'nama',
         'email',
         'password',
-        'role'
+        'nomor_induk',
+        'role',
+        'verification_token',
+        'email_verified_at',
+        'reset_token',
+        'reset_token_expired_at',
     ];
 
     protected $hidden = [
         'password'
     ];
+
+    public function anakPkl()
+    {
+        return $this->hasMany(AnakPkl::class);
+    }
 }
