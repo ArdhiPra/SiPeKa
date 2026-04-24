@@ -70,20 +70,32 @@ class LoginRegisterController extends Controller
     public function register(Request $request)
 {
     $validated = $request->validate([
-        'nama' => 'required|string|max:100',
-        'email' => 'required|email|unique:tbl_user,email',
+        'nama'     => 'required|string|max:100',
+        'email'    => 'required|email|unique:tbl_user,email',
         'password' => 'required|min:6|confirmed',
     ]);
 
-    User::create([
-        'nama' => $validated['nama'],
-        'email' => $validated['email'],
-        'password' => Hash::make($validated['password']),
-        'role' => 'user', // pastikan default role
+    // Generate token unik
+    $token = Str::random(64);
+
+    $user = User::create([
+        'nama'               => $validated['nama'],
+        'email'              => $validated['email'],
+        'password'           => Hash::make($validated['password']),
+        'role'               => 'user',
+        'verification_token' => $token, // ← simpan token
     ]);
 
+    // Kirim email verifikasi
+    $verifyUrl = route('verify.email', $token);
+
+    Mail::send('emails.verify', ['user' => $user, 'url' => $verifyUrl], function ($mail) use ($user) {
+        $mail->to($user->email)
+             ->subject('Verifikasi Email Kamu');
+    });
+
     return redirect()->route('login')
-        ->with('alert-success', 'Registrasi berhasil, Kami telah mengirimkan email verifikasi, silakan cek email Anda');
+        ->with('alert-success', 'Registrasi berhasil! Silakan cek email untuk verifikasi.');
 }
 
     public function verifyEmail($token)
@@ -91,16 +103,15 @@ class LoginRegisterController extends Controller
         $user = User::where('verification_token', $token)->first();
 
         if (!$user) {
-            return redirect('/')->with('alert-error', 'Token verifikasi tidak valid');
+            return redirect('/login')->with('alert-error', 'Token verifikasi tidak valid');
         }
 
         $user->email_verified_at = now();
         $user->verification_token = null;
         $user->save();
 
-        return redirect('/')->with('alert-success', 'Email berhasil diverifikasi, silakan login');
+        return redirect('/login')->with('alert-success', 'Email berhasil diverifikasi, silakan login');
     }
-
     // ======================
     // LOGOUT
     // ======================

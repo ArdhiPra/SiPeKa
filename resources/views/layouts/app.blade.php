@@ -18,15 +18,14 @@
 
     <!-- Global CSS -->
     <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     @stack('styles')
     @if ($errors->any())
     <meta name="alert-error" content="{{ $errors->first() }}">
-  @endif
-  @if (session('alert-success'))
-    <meta name="alert-success" content="{{ session('alert-success') }}">
-  @endif
+    @elseif (session('alert-error'))
+    <meta name="alert-error" content="{{ session('alert-error') }}">
+    @endif
 </head>
 
 <body>

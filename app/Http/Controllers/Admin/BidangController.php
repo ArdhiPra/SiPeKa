@@ -6,91 +6,105 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Magang;
 use App\Models\Bidang;
+use Illuminate\Support\Str;
 
 class BidangController extends Controller
 {
-    /**
-     * Menampilkan daftar mahasiswa magang khusus bidang Sekretariat
-     */
-    public function sekretariat()
+    public function show(Bidang $bidang)
     {
-        // Ambil ID bidang "Sekretariat"
-        $bidang = Bidang::where('nama_bidang', 'LIKE', '%Sekretariat%')->first();
-
-        if (!$bidang) {
-            return back()->withErrors(['msg' => 'Bidang Sekretariat tidak ditemukan di database.']);
-        }
-
-        // Ambil semua magang dengan unit_penempatan sesuai bidang sekretariat
         $magang = Magang::with('bidang')
-            ->where('unit_penempatan', $bidang->id) // gunakan unit_penempatan, bukan bidang_id
+            ->where('bidang_id', $bidang->id)
             ->orderBy('nama_lengkap', 'asc')
             ->get();
 
-        return view('admin.bidang.bidang-sekretariat', compact('magang', 'bidang'));
+        return view('admin.bidang.lihat-detail', compact('bidang', 'magang'));
     }
 
-    public function persandian()
+    public function create()
     {
-        $bidang = Bidang::where('nama_bidang', 'LIKE', '%Persandian%')->first();
+        return view('admin.bidang.tambah-bidang');
+    }
 
-        if (!$bidang) {
-            return back()->withErrors(['msg' => 'Bidang Persandian tidak ditemukan di database.']);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_bidang' => 'required',
+            'kuota' => 'required|integer'
+        ]);
+
+        $slug = Str::slug($request->nama_bidang);
+        $original = $slug;
+        $count = 1;
+
+        while (Bidang::where('slug', $slug)->exists()) {
+            $slug = $original . '-' . $count++;
         }
 
-        $magang = Magang::with('bidang')
-            ->where('unit_penempatan', $bidang->id) // gunakan unit_penempatan, bukan bidang_id
-            ->orderBy('nama_lengkap', 'asc')
-            ->get();
+        Bidang::create([
+            'nama_bidang' => $request->nama_bidang,
+            'kuota' => $request->kuota,
+            'icon' => $request->icon ?? 'bi-folder',
+            'warna' => $request->warna ?? 'secondary',
+            'slug' => $slug,
+        ]);
 
-        return view('admin.bidang.bidang-persandian', compact('magang', 'bidang'));
+        return redirect()->route('admin.dashboard')
+            ->with('success', 'Bidang berhasil ditambahkan');
     }
 
-    public function pikp()
+    public function edit($id)
     {
-        $bidang = Bidang::where('nama_bidang', 'LIKE', '%PIKP%')->first();
+        $bidang = Bidang::findOrFail($id);
+        return view('admin.bidang.edit-bidang', compact('bidang'));
+    }
 
-        if (!$bidang) {
-            return back()->withErrors(['msg' => 'Bidang PIKP tidak ditemukan di database.']);
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_bidang' => 'required',
+            'kuota' => 'required|integer'
+        ]);
+
+        $bidang = Bidang::findOrFail($id);
+
+        // Update field utama
+        $bidang->nama_bidang = $request->nama_bidang;
+        $bidang->kuota = $request->kuota;
+        $bidang->icon = $request->icon ?? 'bi-folder';
+        $bidang->warna = $request->warna ?? 'secondary';
+
+        // 🔥 Generate slug baru
+        $slug = Str::slug($request->nama_bidang);
+        $original = $slug;
+        $count = 1;
+
+        // 🔒 Pastikan slug unik (kecuali dirinya sendiri)
+        while (Bidang::where('slug', $slug)
+            ->where('id', '!=', $bidang->id)
+            ->exists()) {
+            
+            $slug = $original . '-' . $count++;
         }
 
-        $magang = Magang::with('bidang')
-            ->where('unit_penempatan', $bidang->id) // gunakan unit_penempatan, bukan bidang_id
-            ->orderBy('nama_lengkap', 'asc')
-            ->get();
+        $bidang->slug = $slug;
 
-        return view('admin.bidang.bidang-pikp', compact('magang', 'bidang'));
+        $bidang->save();
+
+        return redirect()->route('admin.dashboard')
+            ->with('success', 'Bidang berhasil diupdate');
     }
 
-    public function statistik()
+    public function destroy($id)
     {
-        $bidang = Bidang::where('nama_bidang', 'LIKE', '%Statistik%')->first();
+        $bidang = Bidang::findOrFail($id);
+        $bidang->delete();
 
-        if (!$bidang) {
-            return back()->withErrors(['msg' => 'Bidang Statistik tidak ditemukan di database.']);
-        }
-
-        $magang = Magang::with('bidang')
-            ->where('unit_penempatan', $bidang->id) // gunakan unit_penempatan, bukan bidang_id
-            ->orderBy('nama_lengkap', 'asc')
-            ->get();
-
-        return view('admin.bidang.bidang-statistik', compact('magang', 'bidang'));
+        return redirect()->route('admin.edit.dashboard')
+    ->with('sweetalert', [
+        'icon'  => 'success',
+        'title' => 'Berhasil!',
+        'text'  => 'Bidang berhasil dihapus!',
+    ]);  
     }
 
-    public function tik()
-    {
-        $bidang = Bidang::where('nama_bidang', 'LIKE', '%TIK%')->first();
-
-        if (!$bidang) {
-            return back()->withErrors(['msg' => 'Bidang TIK tidak ditemukan di database.']);
-        }
-
-        $magang = Magang::with('bidang')
-            ->where('unit_penempatan', $bidang->id) // gunakan unit_penempatan, bukan bidang_id
-            ->orderBy('nama_lengkap', 'asc')
-            ->get();
-
-        return view('admin.bidang.bidang-tik', compact('magang', 'bidang'));
-    }
 }

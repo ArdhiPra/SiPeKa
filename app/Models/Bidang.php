@@ -10,6 +10,10 @@ class Bidang extends Model
 
     protected $fillable = [
         'nama_bidang',
+        'kuota',
+        'icon',
+        'warna',
+        'slug',
     ];
 
     /* ================= RELASI ================= */

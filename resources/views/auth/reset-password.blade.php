@@ -2,6 +2,13 @@
 <html>
 <head>
     <title>Reset Password</title>
+    @if(session('alert-error'))
+        <p style="color:red">{{ session('alert-error') }}</p>
+    @endif
+
+    @if(session('alert-success'))
+        <p style="color:green">{{ session('alert-success') }}</p>
+    @endif
 </head>
 <body>
 

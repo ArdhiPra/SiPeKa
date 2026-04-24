@@ -16,7 +16,7 @@ class AnakPkl extends Model
         'asal_instansi',
         'program_studi',
         'tingkat',
-        'no_hp',
+        'telepon',
         'jenis_kelamin',
         'alamat_domisili',
         'tanggal_mulai',

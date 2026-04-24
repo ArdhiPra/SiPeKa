@@ -15,7 +15,7 @@
         <p style="color:green">{{ session('alert-success') }}</p>
     @endif
 
-    <form method="POST" action="/">
+    <form method="POST" action="/login">
         @csrf
 
         <label>Email</label><br>

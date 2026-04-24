@@ -1,0 +1,79 @@
+/* Gunakan Roboto untuk seluruh body */
+body {
+  font-family: 'Roboto', sans-serif;
+   background: #f4f6f9 !important;  /* abu muda, lembut */
+}
+
+.page-header {
+    position: relative;
+    width: 100%;   
+    padding: 15px 32px; /* tetap seperti semula, tidak menurunkan teks */
+    background: transparent;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* garis bawah dibuat manual agar bisa diatur posisinya */
+.page-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    height: 2px;
+    background: #e6e6e6;
+
+    bottom: 7px;  
+    /* 4px dari bawah → garis naik TANPA menggeser teks */
+}
+
+
+    /* ============================
+       GLOBAL DARK MODE
+    ============================ *
+    ============================ A
+
+/* Heading lebih tebal */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+/* Card title */
+.card-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Progress bar teks */
+.progress-bar {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Keterangan kecil */
+small {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #666;
+}
+
+.content {
+    margin-left: 240px;
+    padding: 1rem;
+}
+
+/* Mobile mode: hapus margin kiri */
+@media (max-width: 767.98px) {
+    .content {
+        margin-left: 0;
+    }
+}
+
+.h1{
+  font-family:"Roboto",sans-serif;
+} 

@@ -17,14 +17,14 @@
         {{-- Brand --}}
         @if($isAdmin)
             <a class="navbar-brand d-flex align-items-center mb-0 h1" 
-               href="{{ route('admin.dashboard') }}">
+                href="{{ route('admin.dashboard') }}">
         @else
             <a class="navbar-brand d-flex align-items-center mb-0 h1" 
-               href="{{ route('user.dashboard') }}">
+                href="{{ route('user.dashboard') }}">
         @endif
 
             <img src="{{ asset('assets/logo_kominforb.png') }}" 
-                 alt="Logo" width="30" height="30" class="me-2">
+                    alt="Logo" width="30" height="30" class="me-2">
             <span>SiPeKa</span>
         </a>
 
@@ -34,13 +34,13 @@
 
 {{-- ================= SIDEBAR DESKTOP ================= --}}
 <div class="sidebar d-none d-md-block bg-dark text-white p-3" 
-     style="width: 250px; min-height: 100vh;">
+        style="width: 250px; min-height: 100vh;">
 
     {{-- Logo --}}
     <a href="{{ $isAdmin ? route('admin.dashboard') : route('user.dashboard') }}"
-       class="d-flex align-items-center mb-3 text-white text-decoration-none">
+        class="d-flex align-items-center mb-3 text-white text-decoration-none">
         <img src="{{ asset('assets/logo_kominforb.png') }}" 
-             alt="Logo" width="30" height="30" class="me-2">
+            alt="Logo" width="30" height="30" class="me-2">
         <h4 class="mb-0">SiPeKa</h4>
     </a>
 
@@ -53,33 +53,35 @@
 
             <li class="nav-item">
                 <a href="{{ route('user.dashboard') }}"
-                   class="nav-link text-white {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
-                   <i class="bi bi-house"></i> Beranda
+                    class="nav-link text-white {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-house"></i> Dashboard
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('tentang') }}"
-                   class="nav-link text-white {{ request()->routeIs('tentang') ? 'active' : '' }}">
-                   <i class="bi bi-info-circle"></i> Tentang
+                    class="nav-link text-white {{ request()->routeIs('tentang') ? 'active' : '' }}">
+                    <i class="bi bi-info-circle"></i> Tentang
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ url('/tentang#kontak') }}"
-                   class="nav-link text-white">
-                   <i class="bi bi-telephone"></i> Kontak
+                <a href="{{ route('user.pengajuan.magang') }}"
+                    class="nav-link text-white {{ request()->routeIs('user.pengajuan.magang') ? 'active' : '' }}">
+                    <i class="bi bi-send"></i> Pengajuan Magang
                 </a>
             </li>
 
-            @guest
+            
             <li class="nav-item">
-                <a href="{{ route('logout') }}"
-                   class="nav-link text-white">
-                   <i class="bi bi-box-arrow-in-right"></i> Logout
-                </a>
-            </li>
-            @endguest
+    <a href="#" class="nav-link text-white logout-trigger">
+        <i class="bi bi-box-arrow-in-left"></i> Logout
+    </a>
+    <form action="{{ route('logout') }}" method="POST" class="logout-form d-none">
+        @csrf
+    </form>
+</li>
+        
 
         @endif
 
@@ -91,8 +93,8 @@
 
             {{-- Parent --}}
             <a href="{{ route('admin.dashboard') }}"
-               class="nav-link text-white d-flex justify-content-between align-items-center
-               {{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                class="nav-link text-white d-flex justify-content-between align-items-center
+                {{ request()->routeIs('admin.*') ? 'active' : '' }}">
 
                 <span>
                     <i class="bi bi-house"></i> Dashboard
@@ -112,22 +114,21 @@
                 <ul class="nav flex-column ms-4">
 
                     <li class="nav-item">
-                        <a href="{{ route('admin.magang.create') }}"
-                           class="nav-link text-white {{ request()->routeIs('admin.magang.create') ? 'active' : '' }}">
-                           <i class="bi bi-plus-circle"></i> Tambah Data
+                        <a href="{{ route('admin.edit.dashboard') }}"
+                           class="nav-link text-white {{ request()->routeIs('admin.edit.dashboard') ? 'active' : '' }}">
+                           <i class="bi bi-plus-circle"></i> Edit Dashboard
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('admin.edit.index') }}"
-                           class="nav-link text-white {{ request()->routeIs('admin.edit.index') ? 'active' : '' }}">
-                           <i class="bi bi-pencil-square"></i> Edit Data
-                        </a>
-                    </li>
-
                 </ul>
             </div>
 
+        </li>
+
+        <li class="nav-item">
+                        <a href="{{ route('admin.pengajuan.index') }}"
+                           class="nav-link text-white {{ request()->routeIs('admin.pengajuan.index') ? 'active' : '' }}">
+                           <i class="bi bi-folder2"></i> Kelola Pengajuan
+                        </a>
         </li>
 
         <li class="nav-item">
@@ -171,7 +172,7 @@
                 <li class="nav-item">
                     <a href="{{ route('user.dashboard') }}"
                        class="nav-link text-white">
-                       <i class="bi bi-house"></i> Beranda
+                       <i class="bi bi-house"></i> Dashboard
                     </a>
                 </li>
 
@@ -182,14 +183,14 @@
                     </a>
                 </li>
 
-                @guest
+                
                 <li class="nav-item">
                     <a href="{{ route('logout') }}"
                        class="nav-link text-white">
                        <i class="bi bi-box-arrow-in-right"></i> Logout
                     </a>
                 </li>
-                @endguest
+                
 
             @endif
 

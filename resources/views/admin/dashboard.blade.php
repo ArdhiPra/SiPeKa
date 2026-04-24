@@ -3,20 +3,21 @@
 @section('title', 'Dashboard Admin')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-    <h1 class="mb-0">Dashboard Admin</h1>
 
-    <!-- Tombol Desktop -->
-    <div class="d-none d-md-flex">
-        <a href="{{ route('admin.magang.create') }}" class="btn btn-green me-2">
+{{-- HEADER --}}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h4 class="mb-0 fw-bold">Dashboard Admin</h4>
+        <small class="text-muted">Ringkasan data magang aktif</small>
+    </div>
+    <div class="d-none d-md-flex gap-2">
+        <a href="{{ route('admin.magang.create') }}" class="btn btn-green">
             <i class="bi bi-plus-circle"></i> Tambah Data
         </a>
         <a href="{{ route('admin.edit.index') }}" class="btn btn-yellow">
             <i class="bi bi-pencil-square"></i> Edit Data
         </a>
     </div>
-
-    <!-- Tombol Mobile (ikon saja di kanan atas) -->
     <div class="d-flex d-md-none gap-2 ms-auto">
         <a href="{{ route('admin.magang.create') }}" class="btn btn-green p-2">
             <i class="bi bi-plus-circle fs-5"></i>
@@ -27,173 +28,136 @@
     </div>
 </div>
 
-        <!-- Ringkasan -->
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body p-4 text-white" 
-            style="background: linear-gradient(135deg, #0d47a1, #1976d2, #42a5f5); 
-                    color: #fff; 
-                    border-radius: 10px;">
-            <div class="row text-center">
-            <!-- Jumlah Anak Magang -->
-                <div class="col-6 col-md-3 mb-3 mb-md-0 border-end">
-                    <div class="small fw-bold mb-1">
-                        <i class="bi bi-people-fill me-1"></i> Total Anak Magang
-                    </div>
-                    <div class="display-6 fw-bold">{{ $totalAnak }}</div>
+{{-- RINGKASAN --}}
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #1976d2 !important;">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:48px;height:48px;background:#e3f0ff;flex-shrink:0;">
+                    <i class="bi bi-people-fill text-primary fs-5"></i>
                 </div>
-            <!-- Jumlah Kuota -->
-                <div class="col-6 col-md-3 mb-3 mb-md-0 border-end hide-border-mobile">
-                    <div class="small fw-bold mb-1">
-                        <i class="bi bi-box-seam me-1"></i> Jumlah Kuota
-                    </div>
-                    <div class="display-6 fw-bold">{{ $jumlahKuota }}</div>
-                </div>
-            <!-- Terisi -->
-                <div class="col-6 col-md-3 mb-3 mb-md-0 border-end">
-                    <div class="small fw-bold mb-1">
-                        <i class="bi bi-check-circle-fill me-1"></i> Terisi
-                    </div>
-                    <div class="display-6 fw-bold">{{ $terisiTotal }}</div>
-                </div>
-            <!-- Sisa Kuota -->
-                <div class="col-6 col-md-3">
-                    <div class="small fw-bold mb-1">
-                        <i class="bi bi-x-circle-fill me-1"></i> Sisa Kuota
-                    </div>
-                    <div class="display-6 fw-bold">{{ $sisaTotal }}</div>
+                <div>
+                    <div class="small text-muted fw-semibold">Total Magang</div>
+                    <div class="fs-3 fw-bold lh-1">{{ $totalAnak }}</div>
                 </div>
             </div>
         </div>
     </div>
-
-        <!-- Bidang -->
-        <div class="row g-4">
-            <!-- Sekretariat -->
-            @php 
-                $sekretariat = $bidangs->firstWhere('nama_bidang', 'Sekretariat'); 
-            @endphp
-            @if($sekretariat)
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body text-center">
-                        <div class="display-6 text-primary mb-2"><i class="bi bi-book"></i></div>
-                        <h5 class="card-title fw-bold">Bidang Sekretariat</h5>
-                        @php $percent = $sekretariat->kuota > 0 ? ($sekretariat->terisi / $sekretariat->kuota) * 100 : 0; @endphp
-                        <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar bg-primary" style="width: {{ $percent }}%;">
-                                {{ $sekretariat->terisi }}/{{ $sekretariat->kuota }}
-                            </div>
-                        </div>
-                        <div class="row text-center mb-3">
-                            <div class="col"><div class="fw-bold">{{ $sekretariat->kuota }}</div><small>Jumlah Kuota</small></div>
-                            <div class="col"><div class="fw-bold text-success">{{ $sekretariat->terisi }}</div><small>Terisi</small></div>
-                            <div class="col"><div class="fw-bold text-danger">{{ $sekretariat->sisa }}</div><small>Sisa</small></div>
-                        </div>
-                        <a href="{{ route('admin.sekretariat') }}" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
-                    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #388e3c !important;">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:48px;height:48px;background:#e8f5e9;flex-shrink:0;">
+                    <i class="bi bi-box-seam text-success fs-5"></i>
+                </div>
+                <div>
+                    <div class="small text-muted fw-semibold">Jumlah Kuota</div>
+                    <div class="fs-3 fw-bold lh-1">{{ $jumlahKuota }}</div>
                 </div>
             </div>
-            @endif
-
-            <!-- TIK -->
-            @php $tik = $bidangs->firstWhere('nama_bidang', 'TIK'); @endphp
-            @if($tik)
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body text-center">
-                        <div class="display-6 text-success mb-2"><i class="bi bi-broadcast"></i></div>
-                        <h5 class="card-title fw-bold">Bidang TIK</h5>
-                        @php $percent = $tik->kuota > 0 ? ($tik->terisi / $tik->kuota) * 100 : 0; @endphp
-                        <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar bg-success" style="width: {{ $percent }}%;">
-                                {{ $tik->terisi }}/{{ $tik->kuota }}
-                            </div>
-                        </div>
-                        <div class="row text-center mb-3">
-                            <div class="col"><div class="fw-bold">{{ $tik->kuota }}</div><small>Jumlah Kuota</small></div>
-                            <div class="col"><div class="fw-bold text-success">{{ $tik->terisi }}</div><small>Terisi</small></div>
-                            <div class="col"><div class="fw-bold text-danger">{{ $tik->sisa }}</div><small>Sisa</small></div>
-                        </div>
-                        <a href="{{ route('admin.tik') }}" class="btn btn-outline-success btn-sm">Lihat Detail</a>
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            <!-- Persandian -->
-            @php $persandian = $bidangs->firstWhere('nama_bidang', 'Persandian'); @endphp
-            @if($persandian)
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body text-center">
-                        <div class="display-6 text-warning mb-2"><i class="bi bi-shield-lock"></i></div>
-                        <h5 class="card-title fw-bold">Bidang Persandian</h5>
-                        @php $percent = $persandian->kuota > 0 ? ($persandian->terisi / $persandian->kuota) * 100 : 0; @endphp
-                        <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar bg-warning" style="width: {{ $percent }}%;">
-                                {{ $persandian->terisi }}/{{ $persandian->kuota }}
-                            </div>
-                        </div>
-                        <div class="row text-center mb-3">
-                            <div class="col"><div class="fw-bold">{{ $persandian->kuota }}</div><small>Jumlah Kuota</small></div>
-                            <div class="col"><div class="fw-bold text-success">{{ $persandian->terisi }}</div><small>Terisi</small></div>
-                            <div class="col"><div class="fw-bold text-danger">{{ $persandian->sisa }}</div><small>Sisa</small></div>
-                        </div>
-                        <a href="{{ route('admin.persandian') }}" class="btn btn-outline-warning btn-sm">Lihat Detail</a>
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            <!-- Statistik -->
-            @php $statistik = $bidangs->firstWhere('nama_bidang', 'Statistik'); @endphp
-            @if($statistik)
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body text-center">
-                        <div class="display-6 text-info mb-2"><i class="bi bi-bar-chart-line"></i></div>
-                        <h5 class="card-title fw-bold">Bidang Statistik</h5>
-                        @php $percent = $statistik->kuota > 0 ? ($statistik->terisi / $statistik->kuota) * 100 : 0; @endphp
-                        <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar bg-info" style="width: {{ $percent }}%;">
-                                {{ $statistik->terisi }}/{{ $statistik->kuota }}
-                            </div>
-                        </div>
-                        <div class="row text-center mb-3">
-                            <div class="col"><div class="fw-bold">{{ $statistik->kuota }}</div><small>Jumlah Kuota</small></div>
-                            <div class="col"><div class="fw-bold text-success">{{ $statistik->terisi }}</div><small>Terisi</small></div>
-                            <div class="col"><div class="fw-bold text-danger">{{ $statistik->sisa }}</div><small>Sisa</small></div>
-                        </div>
-                        <a href="{{ route('admin.statistik') }}" class="btn btn-outline-info btn-sm">Lihat Detail</a>
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            <!-- PIKP -->
-            @php $pikp = $bidangs->firstWhere('nama_bidang', 'PIKP'); @endphp
-            @if($pikp)
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body text-center">
-                        <div class="display-6 text-danger mb-2"><i class="bi bi-hdd-network"></i></div>
-                        <h5 class="card-title fw-bold">Bidang PIKP</h5>
-                        @php $percent = $pikp->kuota > 0 ? ($pikp->terisi / $pikp->kuota) * 100 : 0; @endphp
-                        <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar bg-danger" style="width: {{ $percent }}%;">
-                                {{ $pikp->terisi }}/{{ $pikp->kuota }}
-                            </div>
-                        </div>
-                        <div class="row text-center mb-3">
-                            <div class="col"><div class="fw-bold">{{ $pikp->kuota }}</div><small>Jumlah Kuota</small></div>
-                            <div class="col"><div class="fw-bold text-success">{{ $pikp->terisi }}</div><small>Terisi</small></div>
-                            <div class="col"><div class="fw-bold text-danger">{{ $pikp->sisa }}</div><small>Sisa</small></div>
-                        </div>
-                        <a href="{{ route('admin.pikp') }}" class="btn btn-outline-danger btn-sm">Lihat Detail</a>
-                    </div>
-                </div>
-            </div>
-            @endif
         </div>
     </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #f9a825 !important;">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:48px;height:48px;background:#fffde7;flex-shrink:0;">
+                    <i class="bi bi-check-circle-fill text-warning fs-5"></i>
+                </div>
+                <div>
+                    <div class="small text-muted fw-semibold">Terisi</div>
+                    <div class="fs-3 fw-bold lh-1">{{ $terisiTotal }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #d32f2f !important;">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:48px;height:48px;background:#ffebee;flex-shrink:0;">
+                    <i class="bi bi-x-circle-fill text-danger fs-5"></i>
+                </div>
+                <div>
+                    <div class="small text-muted fw-semibold">Sisa Kuota</div>
+                    <div class="fs-3 fw-bold lh-1">{{ $sisaTotal }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- KARTU BIDANG --}}
+<h6 class="fw-bold text-muted mb-3 text-uppercase" style="letter-spacing:.06em;font-size:11px;">
+    Bidang Penempatan
+</h6>
+
+<div class="row g-4">
+    @forelse($bidangs as $bidang)
+    @php
+        $percent = $bidang->kuota > 0 ? ($bidang->terisi / $bidang->kuota) * 100 : 0;
+        $warna   = $bidang->warna ?? 'secondary';
+        $icon    = $bidang->icon  ?? 'bi-folder';
+    @endphp
+    <div class="col-md-4 col-sm-6">
+        <div class="card border-0 shadow-sm h-100" 
+             style="border-top: 3px solid var(--bs-{{ $warna }}) !important; transition: transform .2s;"
+             onmouseover="this.style.transform='translateY(-4px)'"
+             onmouseout="this.style.transform='translateY(0)'">
+            <div class="card-body">
+
+                {{-- HEADER KARTU --}}
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center text-{{ $warna }}"
+                         style="width:46px;height:46px;background:rgba(var(--bs-{{ $warna }}-rgb),.1);flex-shrink:0;">
+                        <i class="bi {{ $icon }} fs-5"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">{{ $bidang->nama_bidang }}</div>
+                        <small class="text-muted">{{ $bidang->terisi }} dari {{ $bidang->kuota }} terisi</small>
+                    </div>
+                </div>
+
+                {{-- PROGRESS --}}
+                <div class="progress mb-3" style="height:8px;border-radius:10px;">
+                    <div class="progress-bar bg-{{ $warna }}" 
+                         role="progressbar"
+                         style="width:{{ $percent }}%;border-radius:10px;"
+                         title="{{ round($percent) }}%">
+                    </div>
+                </div>
+
+                {{-- STAT ROW --}}
+                <div class="row text-center g-0 mb-3">
+                    <div class="col border-end">
+                        <div class="fw-bold fs-5">{{ $bidang->kuota }}</div>
+                        <div class="small text-muted">Kuota</div>
+                    </div>
+                    <div class="col border-end">
+                        <div class="fw-bold fs-5 text-success">{{ $bidang->terisi }}</div>
+                        <div class="small text-muted">Terisi</div>
+                    </div>
+                    <div class="col">
+                        <div class="fw-bold fs-5 text-danger">{{ $bidang->sisa }}</div>
+                        <div class="small text-muted">Sisa</div>
+                    </div>
+                </div>
+                {{-- LIHAT DETAIL --}}
+                <a href="{{ route('admin.bidang.show', $bidang->slug) }}" 
+                    class="btn btn-outline-{{ $warna }} btn-sm w-100">
+                    <i class="bi bi-eye"></i> Lihat Detail
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @empty
+    <div class="col-12 text-center py-5 text-muted">
+        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+        Belum ada bidang. <a href="{{ route('admin.magang.create') }}">Tambah sekarang</a>
+    </div>
+    @endforelse
+</div>
+
 @endsection

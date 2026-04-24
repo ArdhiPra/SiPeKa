@@ -1,0 +1,212 @@
+/* ================= ROOT ================= */
+:root {
+    --sidebar-width: 220px; /* SINKRON DENGAN SIDEBAR */
+}
+
+/* ================= GLOBAL ================= */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f4f6f9 !important;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+}
+.h1{
+  font-family:"Plus Jakarta Sans",sans-serif;
+}
+/* ================= PAGE HEADER (FIX JOMPANG) ================= */
+/* HEADER TETAP ADA, TAPI TIDAK MAKAN TINGGI */
+.page-header {
+    position: absolute; /* <<< FIX UTAMA */
+    top: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    padding: 15px 32px;
+    background: transparent;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e6e6e6;
+    bottom: 7px;
+}
+
+/* ================= MAIN WRAPPER ================= */
+.main-wrapper {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+    .main-wrapper {
+        margin-left: 0;
+    }
+}
+  .content-wrapper {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .content-wrapper {
+                margin-left: 0;
+            }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4b1cd4, #8f3fe0);
+            padding: 100px 0 120px;
+            border-bottom-left-radius: 55% 18%;
+            border-bottom-right-radius: 55% 18%;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            opacity: 0.5;
+        }
+
+        .about-content {
+            margin-top: 15px;
+            padding-top: 40px;
+        }
+
+        .illustration-img {
+            border-radius: 20px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .text-left-adjust {
+            margin-left: -150px;
+        }
+
+        .image-shift-right {
+            margin-left: 60px;
+            /* atur sesuai selera: 40px / 60px / 80px */
+        }
+
+        .custom-footer {
+            background: linear-gradient(135deg, #3b0a91, #6f2bd6);
+            color: #fff;
+        }
+
+        /* divider */
+        .footer-divider {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* menu link */
+        .footer-link {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* social icon */
+        .social-icon {
+            display: inline-flex;
+            width: 38px;
+            height: 38px;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            color: #6f2bd6;
+            border-radius: 50%;
+            margin-left: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .social-icon:hover {
+            background: #ffc107;
+            color: #fff;
+        }
+
+        .custom-footer {
+            position: relative;
+            left: 0;
+            width: 100%;
+            margin-left: 0 !important;
+            background: linear-gradient(135deg, #3a0ca3, #7209b7);
+            color: #fff;
+        }
+
+
+        @media (max-width: 992px) {
+            .image-shift-right {
+                margin-left: 0;
+            }
+        }
+
+
+        @media (max-width: 992px) {
+            .text-left-adjust {
+                margin-left: 0;
+            }
+        }
+
+        /* INI KUNCI AGAR GAMBAR STAY */
+        .image-sticky {
+            position: sticky;
+            top: 120px;
+        }
+
+        .tab-content {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: 
+        max-height 0.6s ease,
+        opacity 0.4s ease;
+}
+
+.tab-content.active {
+    max-height: 500px; /* cukup besar untuk isi */
+    opacity: 1;
+}
+.visi-misi-text {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    letter-spacing: 0.2px;
+    color: #444;
+}
+
+@media (max-width: 768px) {
+    .visi-misi-text {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+}
