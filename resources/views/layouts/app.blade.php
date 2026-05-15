@@ -21,11 +21,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     @stack('styles')
-    @if ($errors->any())
-    <meta name="alert-error" content="{{ $errors->first() }}">
-    @elseif (session('alert-error'))
-    <meta name="alert-error" content="{{ session('alert-error') }}">
-    @endif
 </head>
 
 <body>
@@ -44,10 +39,38 @@
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+@if(session('sweetalert'))
     <script>
-        window.sweetalertData = @json(session('sweetalert'));
+        window.sweetalertData = {
+            icon:  "{{ session('sweetalert.icon') }}",
+            title: "{{ session('sweetalert.title') }}",
+            text:  "{{ session('sweetalert.text') }}",
+        };
+        window.dashboardRedirect = "{{ session('sweetalert.redirect') }}";
     </script>
+    @endif
+
+    @if(session('alert-success'))
+    <script>
+        window.sweetalertData = {
+            icon:  "success",
+            title: "Berhasil!",
+            text:  "{{ session('alert-success') }}",
+        };
+        window.dashboardRedirect = null; 
+    </script>
+    @endif
+
+    @if($errors->any() || session('alert-error'))
+    <script>
+        window.sweetalertData = {
+            icon:  "error",
+            title: "Gagal!",
+            text:  "{{ $errors->any() ? $errors->first() : session('alert-error') }}",
+        };
+        window.dashboardRedirect = null;
+    </script>
+    @endif
 
     <script src="{{ asset('js/logout.js') }}"></script>
     <script src="{{ asset('js/sidebar.js') }}"></script>

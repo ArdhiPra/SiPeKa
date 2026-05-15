@@ -68,8 +68,12 @@ class ProfilController extends Controller
         $validated
     );
 
-    return back()->with('alert-success', 'Profil berhasil disimpan');
-}
+    return back()->with('sweetalert', [
+    'icon'  => 'success',
+    'title' => 'Berhasil!',
+    'text'  => 'Profil berhasil disimpan!',
+    ]);
+    }
 
     // ProfilController.php
 public function gantiSandi(Request $request)
@@ -94,7 +98,11 @@ public function gantiSandi(Request $request)
     $user = Auth::user();
     $user->password = Hash::make($request->sandi_baru);
     $user->save();
-    return back()->with('alert-success', 'Sandi berhasil diubah')->with('tab', 'sandi');
+    return back()->with('sweetalert', [
+        'icon'  => 'success',
+        'title' => 'Berhasil!',
+        'text'  => 'Sandi berhasil diubah!',
+    ])->with('tab', 'sandi');
 }
 
 public function notifikasi()

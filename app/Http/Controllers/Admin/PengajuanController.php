@@ -8,10 +8,8 @@ use App\Models\AnakPkl;
 use App\Models\Profil;
 use Illuminate\Http\Request;
 
-
 class PengajuanController extends Controller
 {
-    // Tampilkan semua pengajuan
     public function index()
     {
         $pengajuan = PengajuanMagang::with(['user', 'bidang'])
@@ -21,33 +19,32 @@ class PengajuanController extends Controller
         return view('admin.pengajuan.index', compact('pengajuan'));
     }
 
-    // Detail satu pengajuan
     public function show($id)
     {
         $pengajuan = PengajuanMagang::with(['user', 'bidang'])->findOrFail($id);
         return view('admin.pengajuan.show', compact('pengajuan'));
     }
 
-    // Terima pengajuan → masukkan ke tbl_anak_pkl
     public function terima($id)
     {
         $pengajuan = PengajuanMagang::findOrFail($id);
 
         if ($pengajuan->status !== 'pending') {
-            return back()->with('alert-error', 'Pengajuan ini sudah diproses.');
+            return back()->with('sweetalert', [
+                'icon'  => 'error',
+                'title' => 'Gagal!',
+                'text'  => 'Pengajuan ini sudah diproses.',
+            ]);
         }
 
-        // Ambil data profil berdasarkan user_id pengajuan
         $profil = Profil::where('user_id', $pengajuan->user_id)->first();
 
         AnakPkl::create([
             'user_id'           => $pengajuan->user_id,
             'bidang_id'         => $pengajuan->bidang_id,
-            // Data dari tbl_pengajuan_magang
             'nama_lengkap'      => $pengajuan->nama,
             'tanggal_mulai'     => $pengajuan->tanggal_mulai,
             'tanggal_selesai'   => $pengajuan->tanggal_selesai,
-            // Data dari tbl_profil
             'nomor_induk'       => $profil?->nomor_induk,
             'asal_instansi'     => $profil?->asal_instansi,
             'program_studi'     => $profil?->program_studi,
@@ -61,10 +58,13 @@ class PengajuanController extends Controller
         $pengajuan->update(['status' => 'diterima']);
 
         return redirect()->route('admin.pengajuan.index')
-            ->with('alert-success', 'Pengajuan berhasil diterima.');
-}
+            ->with('sweetalert', [
+                'icon'  => 'success',
+                'title' => 'Berhasil!',
+                'text'  => 'Pengajuan berhasil diterima.',
+            ]);
+    }
 
-    // Tolak pengajuan
     public function tolak(Request $request, $id)
     {
         $request->validate([
@@ -74,7 +74,11 @@ class PengajuanController extends Controller
         $pengajuan = PengajuanMagang::findOrFail($id);
 
         if ($pengajuan->status !== 'pending') {
-            return back()->with('alert-error', 'Pengajuan ini sudah diproses.');
+            return back()->with('sweetalert', [
+                'icon'  => 'error',
+                'title' => 'Gagal!',
+                'text'  => 'Pengajuan ini sudah diproses.',
+            ]);
         }
 
         $pengajuan->update([
@@ -83,6 +87,10 @@ class PengajuanController extends Controller
         ]);
 
         return redirect()->route('admin.pengajuan.index')
-            ->with('alert-success', 'Pengajuan berhasil ditolak.');
+            ->with('sweetalert', [
+                'icon'  => 'success',
+                'title' => 'Berhasil!',
+                'text'  => 'Pengajuan berhasil ditolak.',
+            ]);
     }
 }

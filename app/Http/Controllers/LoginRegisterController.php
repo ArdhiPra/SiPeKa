@@ -35,15 +35,27 @@ class LoginRegisterController extends Controller
     $user = User::where('email', $request->email)->first();
 
     if (!$user) {
-        return back()->with('alert-error', 'Email tidak ditemukan');
+        return back()->with('sweetalert', [
+        'icon'  => 'error',
+        'title' => 'Login Gagal!',
+        'text'  => 'Email tidak ditemukan.',
+    ]);
     }
 
     if (!$user->email_verified_at) {
-        return back()->with('alert-error', 'Silakan verifikasi email terlebih dahulu');
+        return back()->with('sweetalert', [
+            'icon'  => 'error',
+            'title' => 'Login Gagal!',
+            'text'  => 'Silakan verifikasi email terlebih dahulu.',
+        ]);
     }
 
     if (!Hash::check($request->password, $user->password)) {
-        return back()->with('alert-error', 'Password salah');
+        return back()->with('sweetalert', [
+            'icon'  => 'error',
+            'title' => 'Login Gagal!',
+            'text'  => 'Password salah.',
+        ]);
     }
 
     Auth::login($user);
@@ -95,7 +107,11 @@ class LoginRegisterController extends Controller
     });
 
     return redirect()->route('login')
-        ->with('alert-success', 'Registrasi berhasil! Silakan cek email untuk verifikasi.');
+        ->with('sweetalert', [
+            'icon'  => 'success',
+            'title' => 'Registrasi Berhasil!',
+            'text'  => 'Silakan cek email untuk verifikasi.',
+        ]);
 }
 
     public function verifyEmail($token)
@@ -103,14 +119,22 @@ class LoginRegisterController extends Controller
         $user = User::where('verification_token', $token)->first();
 
         if (!$user) {
-            return redirect('/login')->with('alert-error', 'Token verifikasi tidak valid');
+            return redirect('/login')->with('sweetalert', [
+                'icon'  => 'error',
+                'title' => 'Verifikasi Gagal!',
+                'text'  => 'Token verifikasi tidak valid.',
+            ]);
         }
 
         $user->email_verified_at = now();
         $user->verification_token = null;
         $user->save();
 
-        return redirect('/login')->with('alert-success', 'Email berhasil diverifikasi, silakan login');
+        return redirect('/login')->with('sweetalert', [
+            'icon'  => 'success',
+            'title' => 'Verifikasi Berhasil!',
+            'text'  => 'Email berhasil diverifikasi, silakan login.',
+        ]);
     }
     // ======================
     // LOGOUT

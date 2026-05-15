@@ -42,11 +42,6 @@
                 <label class="form-label">NIS / NIM</label>
                 <input type="text" name="nomor_induk" class="form-control" value="{{ old('nomor_induk', $magang->nomor_induk) }}">
             </div>
-            <div class="col-md-6 col-12">
-                <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" value="{{ old('email', $magang->email) }}">
-            </div>
-        </div>
 
         <div class="row g-3 mb-3">
             <div class="col-md-6 col-12">

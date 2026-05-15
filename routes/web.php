@@ -25,11 +25,19 @@ Route::post('/register', [LoginRegisterController::class, 'register']);
 Route::get('/verify-email/{token}', [LoginRegisterController::class, 'verifyEmail'])->name('verify.email');
 
 
-Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotForm']);
-Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink']);
+// Lupa Password
+Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotForm'])
+    ->name('forgot.form');
 
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm']);
-Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])
+    ->name('forgot.send');   
+    
+// Reset Password
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('reset.form');
+
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])
+    ->name('reset.password');
 
 Route::post('/logout', [LoginRegisterController::class, 'logout'])->name('logout');
 

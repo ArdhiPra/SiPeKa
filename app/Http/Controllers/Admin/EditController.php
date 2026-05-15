@@ -16,28 +16,37 @@ class EditController extends Controller
 {
     $bidang = Bidang::all();
 
-    $filters = $request->only(['bidang','asal_instansi','status']);
+    // ✅ Tambah 'tahun' ke filters
+    $filters = $request->only(['bidang', 'asal_instansi', 'status', 'tahun']);
     session(['edit_filters' => $filters]);
 
     $query = Magang::with('bidang');
 
-    // Filter bidang
     if (!empty($filters['bidang'])) {
         $query->where('unit_penempatan', $filters['bidang']);
     }
 
     if (!empty($filters['asal_instansi'])) {
-    $query->where('asal_instansi', 'like', '%' . trim($filters['asal_instansi']) . '%');
+        $query->where('asal_instansi', 'like', '%' . trim($filters['asal_instansi']) . '%');
     }
 
-    // Filter status (HANYA jika dipilih)
     if (!empty($filters['status'])) {
         $query->where('status', $filters['status']);
     }
 
+    // ✅ Filter tahun berdasarkan tanggal_mulai
+    if (!empty($filters['tahun'])) {
+        $query->whereYear('tanggal_mulai', $filters['tahun']);
+    }
+
     $magang = $query->get();
 
-    return view('admin.edit-index', compact('magang', 'bidang', 'filters'));
+    $tahunList = Magang::selectRaw('YEAR(tanggal_mulai) as tahun')
+        ->distinct()
+        ->orderBy('tahun', 'desc')
+        ->pluck('tahun');
+
+    return view('admin.edit-index', compact('magang', 'bidang', 'filters', 'tahunList'));
 }
 
     /**
@@ -70,7 +79,7 @@ class EditController extends Controller
         'program_studi'       => 'nullable|string|max:100',
         'tingkat'             => 'nullable|in:SMA/K,D3,D4,S1,S2',
         'nomor_induk'         => 'nullable|digits_between:5,20|unique:tbl_anak_pkl,nomor_induk,' . $magang->id,
-        'no_hp'               => 'nullable|string|max:20',
+        'telepon'              => 'nullable|string|max:20',
         'jenis_kelamin'       => 'nullable|in:Laki-laki,Perempuan',
         'alamat_domisili'     => 'nullable|string',
         'tanggal_mulai'       => 'nullable|date',
@@ -92,8 +101,13 @@ class EditController extends Controller
 
     return redirect()
         ->route('admin.edit.index', $filters)
-        ->with('alert-success', 'Data magang berhasil diperbarui!');
+        ->with('sweetalert', [
+        'icon'  => 'success',
+        'title' => 'Berhasil!',
+        'text'  => 'Data magang berhasil diperbarui!',
+        ]);
     }
+
 public function destroy($id)
 {
     $magang = Magang::findOrFail($id);
@@ -101,6 +115,10 @@ public function destroy($id)
 
     return redirect()
     ->to(url()->previous())
-    ->with('alert-success', 'Data berhasil dihapus');
+    ->with('sweetalert', [
+        'icon'  => 'success',
+        'title' => 'Berhasil!',
+        'text'  => 'Data berhasil dihapus!',
+    ]);
 }
 }

@@ -2,6 +2,10 @@
 
 /* Import font khusus halaman ini */
 /* ── WRAPPER CARD ── */
+html {
+    overflow-y: scroll;
+}
+
 .settings-wrapper {
     background: #fff;
     border-radius: 16px;

@@ -72,16 +72,14 @@
                 </a>
             </li>
 
-            
             <li class="nav-item">
-    <a href="#" class="nav-link text-white logout-trigger">
-        <i class="bi bi-box-arrow-in-left"></i> Logout
-    </a>
-    <form action="{{ route('logout') }}" method="POST" class="logout-form d-none">
-        @csrf
-    </form>
-</li>
-        
+                <a href="#" class="nav-link text-white logout-trigger">
+                    <i class="bi bi-box-arrow-in-left"></i> Logout
+                </a>
+                <form action="{{ route('logout') }}" method="POST" class="logout-form d-none">
+                    @csrf
+                </form>
+            </li>
 
         @endif
 
@@ -89,12 +87,12 @@
         {{-- ================= ADMIN ================= --}}
         @if($isAdmin)
 
-        <li class="nav-item">
+        <li class="nav-item dashboard-menu">
 
             {{-- Parent --}}
             <a href="{{ route('admin.dashboard') }}"
                 class="nav-link text-white d-flex justify-content-between align-items-center
-                {{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
 
                 <span>
                     <i class="bi bi-house"></i> Dashboard
@@ -103,13 +101,13 @@
                 <span data-bs-toggle="collapse"
                       data-bs-target="#dashboardCollapseDesktop"
                       onclick="event.preventDefault();">
-                    <i class="bi bi-chevron-right"></i>
+                    <i class="bi bi-chevron-right rotate-icon"></i>
                 </span>
 
             </a>
 
             {{-- Submenu --}}
-            <div class="collapse {{ request()->routeIs('admin.*') ? 'show' : '' }}" 
+            <div class="collapse {{ request()->routeIs('admin.dashboard', 'admin.edit.dashboard') ? 'show' : '' }}"
                  id="dashboardCollapseDesktop">
                 <ul class="nav flex-column ms-4">
 
@@ -125,10 +123,10 @@
         </li>
 
         <li class="nav-item">
-                        <a href="{{ route('admin.pengajuan.index') }}"
-                           class="nav-link text-white {{ request()->routeIs('admin.pengajuan.index') ? 'active' : '' }}">
-                           <i class="bi bi-folder2"></i> Kelola Pengajuan
-                        </a>
+            <a href="{{ route('admin.pengajuan.index') }}"
+               class="nav-link text-white {{ request()->routeIs('admin.pengajuan.index') ? 'active' : '' }}">
+               <i class="bi bi-folder2"></i> Kelola Pengajuan
+            </a>
         </li>
 
         <li class="nav-item">
@@ -171,26 +169,26 @@
 
                 <li class="nav-item">
                     <a href="{{ route('user.dashboard') }}"
-                       class="nav-link text-white">
+                       class="nav-link text-white {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
                        <i class="bi bi-house"></i> Dashboard
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route('tentang') }}"
-                       class="nav-link text-white">
+                       class="nav-link text-white {{ request()->routeIs('tentang') ? 'active' : '' }}">
                        <i class="bi bi-info-circle"></i> Tentang
                     </a>
                 </li>
 
-                
                 <li class="nav-item">
-                    <a href="{{ route('logout') }}"
-                       class="nav-link text-white">
-                       <i class="bi bi-box-arrow-in-right"></i> Logout
+                    <a href="#" class="nav-link text-white logout-trigger">
+                        <i class="bi bi-box-arrow-in-right"></i> Logout
                     </a>
+                    <form action="{{ route('logout') }}" method="POST" class="logout-form d-none">
+                        @csrf
+                    </form>
                 </li>
-                
 
             @endif
 
@@ -201,7 +199,8 @@
             <li class="nav-item">
 
                 <a href="{{ route('admin.dashboard') }}"
-                   class="nav-link text-white d-flex justify-content-between align-items-center"
+                   class="nav-link text-white d-flex justify-content-between align-items-center
+                   {{ request()->routeIs('admin.dashboard', 'admin.edit.dashboard') ? 'active' : '' }}"
                    data-bs-toggle="collapse"
                    data-bs-target="#dashboardCollapseMobile">
 
@@ -212,26 +211,27 @@
                     <i class="bi bi-chevron-right"></i>
                 </a>
 
-                <div class="collapse" id="dashboardCollapseMobile">
+                <div class="collapse {{ request()->routeIs('admin.dashboard', 'admin.edit.dashboard') ? 'show' : '' }}" 
+                     id="dashboardCollapseMobile">
                     <ul class="nav flex-column ms-4">
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.magang.create') }}"
-                               class="nav-link text-white">
-                               <i class="bi bi-plus-circle"></i> Tambah Data
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('admin.edit.index') }}"
-                               class="nav-link text-white">
-                               <i class="bi bi-pencil-square"></i> Edit Data
+                            <a href="{{ route('admin.edit.dashboard') }}"
+                               class="nav-link text-white {{ request()->routeIs('admin.edit.dashboard') ? 'active' : '' }}">
+                               <i class="bi bi-plus-circle"></i> Edit Dashboard
                             </a>
                         </li>
 
                     </ul>
                 </div>
 
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('admin.pengajuan.index') }}"
+                   class="nav-link text-white {{ request()->routeIs('admin.pengajuan.index') ? 'active' : '' }}">
+                   <i class="bi bi-folder2"></i> Kelola Pengajuan
+                </a>
             </li>
 
             <li class="nav-item">

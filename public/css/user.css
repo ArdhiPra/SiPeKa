@@ -85,3 +85,114 @@ small {
 .h1{
   font-family:"Plus Jakarta Sans",sans-serif;
 } 
+
+/* ================= TENTANG PAGE ================= */
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #4b1cd4, #8f3fe0);
+    padding: 100px 0 120px;
+    border-bottom-left-radius: 55% 18%;
+    border-bottom-right-radius: 55% 18%;
+    color: #fff;
+    text-align: center;
+}
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+}
+.hero p {
+    font-size: 1.15rem;
+    opacity: 0.5;
+}
+
+/* About Content */
+.about-content {
+    margin-top: 15px;
+    padding-top: 40px;
+}
+.illustration-img {
+    border-radius: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.12);
+}
+.text-left-adjust {
+    margin-left: -150px;
+}
+.image-shift-right {
+    margin-left: 60px;
+}
+.image-sticky {
+    position: sticky;
+    top: 120px;
+}
+
+@media (max-width: 992px) {
+    .text-left-adjust  { margin-left: 0; }
+    .image-shift-right { margin-left: 0; }
+}
+
+/* Tab Visi Misi */
+.tab-content {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.6s ease, opacity 0.4s ease;
+}
+.tab-content.active {
+    max-height: 500px;
+    opacity: 1;
+}
+.visi-misi-text {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    letter-spacing: 0.2px;
+    color: #444;
+}
+@media (max-width: 768px) {
+    .visi-misi-text {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+}
+
+/* ================= FOOTER ================= */
+.custom-footer {
+    position: relative;
+    left: 0;
+    width: 100%;
+    margin-left: 0 !important;
+    background: linear-gradient(135deg, #3a0ca3, #7209b7);
+    color: #fff;
+}
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.footer-link {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+.footer-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+.social-icon {
+    display: inline-flex;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #6f2bd6;
+    border-radius: 50%;
+    margin-left: 8px;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+.social-icon:hover {
+    background: #ffc107;
+    color: #fff;
+}

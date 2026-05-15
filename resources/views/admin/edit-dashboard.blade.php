@@ -93,16 +93,16 @@
                     </a>
 
                     <form action="{{ route('admin.bidang.destroy', $bidang->id) }}"
-                          method="POST"
-                          onsubmit="return confirm('Hapus bidang {{ $bidang->nama_bidang }}?')">
+                        method="POST"
+                        class="form-delete">
                         @csrf
                         @method('DELETE')
+
                         <button type="submit" class="btn btn-danger btn-sm">
                             <i class="bi bi-trash"></i> Hapus
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>

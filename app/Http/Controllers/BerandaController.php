@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bidang;
-use App\Models\AnakPkl;
+use App\Models\Magang; // ✅ sesuaikan dengan model yang dipakai
 
 class BerandaController extends Controller
 {
@@ -16,27 +16,23 @@ class BerandaController extends Controller
 
     public function kuotamagang()
     {
-        {
-        // Ambil per bidang + hitung jumlah terisi per bidang
-        $bidangs = Bidang::withCount(['anakPkl as terisi' => function($q) {
+        // Ambil semua bidang + hitung terisi dari relasi
+        $bidangs = Bidang::withCount(['magang as terisi' => function($q) {
             $q->where('status', 'Aktif');
         }])->get();
 
         // Hitung sisa per bidang
         $bidangs->each(function($b) {
-            $b->sisa = $b->kuota - $b->terisi;
+            $b->sisa = max(0, $b->kuota - $b->terisi); // ✅ min 0, tidak minus
         });
 
-        // Tambahan data ringkasan 
-        $totalPeserta = AnakPkl::count();
-        $pesertaAktif = AnakPkl::where('status', 'Aktif')->count();
+        $totalPeserta = Magang::count();
+        $pesertaAktif = Magang::where('status', 'Aktif')->count();
 
-        // Panggil view yang benar 
         return view('kuota-magang', compact(
             'bidangs',
             'totalPeserta',
             'pesertaAktif'
         ));
-    }
     }
 }

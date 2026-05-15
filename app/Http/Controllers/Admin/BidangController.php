@@ -49,7 +49,11 @@ class BidangController extends Controller
         ]);
 
         return redirect()->route('admin.dashboard')
-            ->with('success', 'Bidang berhasil ditambahkan');
+            ->with('sweetalert', [
+                'icon'  => 'success',
+                'title' => 'Berhasil!',
+                'text'  => 'Bidang berhasil ditambahkan!',
+            ]);
     }
 
     public function edit($id)
@@ -67,22 +71,20 @@ class BidangController extends Controller
 
         $bidang = Bidang::findOrFail($id);
 
-        // Update field utama
         $bidang->nama_bidang = $request->nama_bidang;
         $bidang->kuota = $request->kuota;
-        $bidang->icon = $request->icon ?? 'bi-folder';
-        $bidang->warna = $request->warna ?? 'secondary';
+        $bidang->icon = $request->icon ?? $bidang->icon;   
+        $bidang->warna = $request->warna ?? $bidang->warna;
 
-        // 🔥 Generate slug baru
         $slug = Str::slug($request->nama_bidang);
         $original = $slug;
         $count = 1;
 
-        // 🔒 Pastikan slug unik (kecuali dirinya sendiri)
-        while (Bidang::where('slug', $slug)
-            ->where('id', '!=', $bidang->id)
-            ->exists()) {
-            
+        while (
+            Bidang::where('slug', $slug)
+                ->where('id', '!=', $bidang->id)
+                ->exists()
+        ) {
             $slug = $original . '-' . $count++;
         }
 
@@ -91,7 +93,11 @@ class BidangController extends Controller
         $bidang->save();
 
         return redirect()->route('admin.dashboard')
-            ->with('success', 'Bidang berhasil diupdate');
+            ->with('sweetalert', [
+                'icon'  => 'success',
+                'title' => 'Berhasil!',
+                'text'  => 'Bidang berhasil diupdate!',
+            ]);
     }
 
     public function destroy($id)
@@ -100,11 +106,10 @@ class BidangController extends Controller
         $bidang->delete();
 
         return redirect()->route('admin.edit.dashboard')
-    ->with('sweetalert', [
-        'icon'  => 'success',
-        'title' => 'Berhasil!',
-        'text'  => 'Bidang berhasil dihapus!',
-    ]);  
+            ->with('sweetalert', [
+                'icon'  => 'success',
+                'title' => 'Berhasil!',
+                'text'  => 'Bidang berhasil dihapus!',
+            ]);
     }
-
 }

@@ -48,33 +48,39 @@
     </div>
 
     {{-- AVATAR --}}
-<div class="photo-avatar">
-    @php
-        $nama  = $profil->nama_lengkap ?? auth()->user()->name ?? '';
-        $words = explode(' ', trim($nama));
-        $inisial  = strtoupper(substr($words[0] ?? '', 0, 1));
-        $inisial .= strtoupper(substr($words[1] ?? '', 0, 1));
-    @endphp
+<div class="photo-avatar-wrap" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+    <div class="photo-avatar">
+        @php
+            $nama  = $profil->nama_lengkap ?? auth()->user()->name ?? '';
+            $words = explode(' ', trim($nama));
+            $inisial  = strtoupper(substr($words[0] ?? '', 0, 1));
+            $inisial .= strtoupper(substr($words[1] ?? '', 0, 1));
+        @endphp
 
+        @if($profil?->foto)
+            <img id="preview-foto"
+                src="{{ asset('storage/' . $profil->foto) }}"
+                alt="Foto Profil"
+                class="avatar-img">
+        @else
+            <div id="preview-foto" class="avatar-initials">
+                {{ $inisial ?: '?' }}
+            </div>
+        @endif
+    </div>
+
+    {{-- Tombol hapus sekarang di BAWAH avatar --}}
     @if($profil?->foto)
-        <img id="preview-foto"
-            src="{{ asset('storage/' . $profil->foto) }}"
-            alt="Foto Profil"
-            class="avatar-img">
+        <button type="button" class="btn-delete-foto" onclick="hapusFoto()" id="btn-hapus-foto">
+            <i class="bi bi-trash"></i> Hapus Foto
+        </button>
     @else
-        <div id="preview-foto" class="avatar-initials">
-            {{ $inisial ?: '?' }}
-        </div>
+        {{-- Tetap render tapi hidden supaya JS bisa show/hide --}}
+        <button type="button" class="btn-delete-foto" onclick="hapusFoto()" id="btn-hapus-foto" style="display:none;">
+            <i class="bi bi-trash"></i> Hapus Foto
+        </button>
     @endif
 </div>
-
-{{-- TOMBOL HAPUS FOTO (pakai JS, hindari nested form) --}}
-@if($profil?->foto)
-    <button type="button" class="btn-delete-foto" onclick="hapusFoto()">
-        Hapus Foto
-    </button>
-@endif
-
 {{-- UPLOAD --}}
 <label class="photo-upload-box" for="foto_input">
     <div class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></div>

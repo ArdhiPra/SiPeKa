@@ -22,7 +22,11 @@ class ResetPasswordController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return back()->with('alert-error', 'Email tidak ditemukan');
+            return back()->with('sweetalert', [
+            'icon'  => 'error',
+            'title' => 'Gagal!',
+            'text'  => 'Email tidak ditemukan.',
+        ]);
         }
 
         $token = Str::random(64);
@@ -31,12 +35,17 @@ class ResetPasswordController extends Controller
         $user->reset_token_expired_at = now()->addMinutes(30);
         $user->save();
 
-        Mail::send('emails.reset', ['token' => $token], function ($message) use ($user) {
+        Mail::send('emails.reset', ['token' => $token],
+        function ($message) use ($user) {
             $message->to($user->email);
             $message->subject('Reset Password');
         });
 
-        return back()->with('alert-success', 'Link reset dikirim ke email');
+        return back()->with('sweetalert', [
+            'icon'  => 'success',
+            'title' => 'Berhasil!',
+            'text'  => 'Link reset dikirim ke email.',
+        ]);
     }
 
     public function showResetForm($token)
@@ -56,7 +65,11 @@ class ResetPasswordController extends Controller
             ->first();
 
         if (!$user) {
-            return back()->with('alert-error', 'Token tidak valid atau kadaluarsa');
+            return back()->with('sweetalert', [
+                'icon'  => 'error',
+                'title' => 'Gagal!',
+                'text'  => 'Token tidak valid atau kadaluarsa.',
+            ]);
         }
 
         $user->password = bcrypt($request->password);
@@ -64,7 +77,11 @@ class ResetPasswordController extends Controller
         $user->reset_token_expired_at = null;
         $user->save();
 
-        return redirect('/')->with('alert-success', 'Password berhasil diubah');
+        return redirect('/')->with('sweetalert', [
+            'icon'  => 'success',
+            'title' => 'Berhasil!',
+            'text'  => 'Password berhasil diubah.',
+        ]);
     }
 
 }

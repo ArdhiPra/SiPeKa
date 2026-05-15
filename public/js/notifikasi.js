@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
         title: alertData.title,
         text: alertData.text,
         confirmButtonText: "OK",
-        width: 450, // responsive di mobile
+        width: 450,
     }).then((result) => {
-        if (result.isConfirmed && alertData.icon === "success") {
+        if (result.isConfirmed && window.dashboardRedirect) { // ✅ cek null dulu
             window.location.href = window.dashboardRedirect;
         }
     });

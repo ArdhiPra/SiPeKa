@@ -155,7 +155,7 @@
     @empty
     <div class="col-12 text-center py-5 text-muted">
         <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-        Belum ada bidang. <a href="{{ route('admin.magang.create') }}">Tambah sekarang</a>
+        Belum ada bidang. <a href="{{ route('admin.bidang.tambah') }}">Tambah sekarang</a>
     </div>
     @endforelse
 </div>

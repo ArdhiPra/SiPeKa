@@ -59,3 +59,7 @@
 .offcanvas-body {
     padding-top: 1rem;
 }
+
+.rotate-icon.no-transition {
+    transition: none !important;
+}

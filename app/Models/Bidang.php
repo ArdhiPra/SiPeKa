@@ -23,4 +23,9 @@ class Bidang extends Model
     {
         return $this->hasMany(AnakPkl::class, 'bidang_id');
     }
+
+    public function magang()
+    {
+        return $this->hasMany(Magang::class);
+    }
 }

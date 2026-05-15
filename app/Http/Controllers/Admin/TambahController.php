@@ -46,6 +46,10 @@ class TambahController extends Controller
 
         Magang::create($validated);
 
-        return redirect()->back()->with('alert-success', 'Data magang berhasil ditambahkan!');
+        return redirect()->back()->with('sweetalert', [
+        'icon'  => 'success',
+        'title' => 'Berhasil!',
+        'text'  => 'Data magang berhasil ditambahkan!',
+        ]);
     }
 }

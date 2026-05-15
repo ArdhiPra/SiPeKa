@@ -15,47 +15,56 @@
 
         {{-- FILTER --}}
         <form method="GET" action="{{ route('admin.edit.index') }}" class="mb-4">
-            <div class="filter-panel">
-                <div class="row g-3 align-items-end">
+    <div class="filter-panel">
+        <div class="row g-2 align-items-end">
 
-                    <div class="col-lg-3 col-md-4">
-                        <label class="filter-label">Bidang</label>
-                        <select name="bidang" class="form-select filter-control">
-                            <option value="">Semua Bidang</option>
-                            @foreach($bidang as $b)
-                                <option value="{{ $b->id }}" {{ request('bidang') == $b->id ? 'selected' : '' }}>
-                                    {{ $b->nama_bidang }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4">
-                        <label class="filter-label">Asal Instansi</label>
-                        <input type="text" name="asal_instansi" class="form-control filter-control"
-                            placeholder="Cari instansi..." value="{{ request('asal_instansi') }}">
-                    </div>
-
-                    <div class="col-lg-3 col-md-4">
-                        <label class="filter-label">Status</label>
-                        <select name="status" class="form-select filter-control">
-                            <option value="">Semua Status</option>
-                            <option value="Aktif" {{ request('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
-                            <option value="Diberhentikan" {{ request('status') == 'Diberhentikan' ? 'selected' : '' }}>
-                                Diberhentikan</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-2 col-md-12 d-grid">
-                        <button type="submit" class="btn btn-primary filter-btn">
-                            Terapkan Filter
-                        </button>
-                    </div>
-
-                </div>
+            <div class="col">
+                <label class="filter-label">Bidang</label>
+                <select name="bidang" class="form-select filter-control">
+                    <option value="">Semua Bidang</option>
+                    @foreach($bidang as $b)
+                        <option value="{{ $b->id }}" {{ request('bidang') == $b->id ? 'selected' : '' }}>
+                            {{ $b->nama_bidang }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
-        </form>
+
+            <div class="col">
+                <label class="filter-label">Asal Instansi</label>
+                <input type="text" name="asal_instansi" class="form-control filter-control"
+                    placeholder="Cari instansi..." value="{{ request('asal_instansi') }}">
+            </div>
+
+            <div class="col">
+                <label class="filter-label">Status</label>
+                <select name="status" class="form-select filter-control">
+                    <option value="">Semua Status</option>
+                    <option value="Aktif" {{ request('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                    <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                    <option value="Diberhentikan" {{ request('status') == 'Diberhentikan' ? 'selected' : '' }}>Diberhentikan</option>
+                </select>
+            </div>
+
+            <div class="col">
+                <label class="filter-label">Tahun</label>
+                <select name="tahun" class="form-select filter-control">
+                    <option value="">Semua</option>
+                    @foreach($tahunList as $tahun)
+                        <option value="{{ $tahun }}" {{ request('tahun') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-auto">
+                <label class="filter-label d-block">&nbsp;</label>
+                <button type="submit" class="btn btn-primary filter-btn w-100">
+                    Terapkan Filter
+                </button>
+            </div>
+
+        </div>
+    </div>
+</form>
 
         {{-- TABLE --}}
         <div class="table-card">

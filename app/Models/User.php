@@ -34,7 +34,7 @@ class User extends Authenticatable
         return $this->hasMany(AnakPkl::class);
     }
 
-    public function profile()
+    public function profil()
     {
     return $this->hasOne(Profil::class);
     }
